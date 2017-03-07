@@ -16,46 +16,99 @@
             <img src="static/images/logo.svg"/>
         </header>
         <main>
-            <h1>
-                Wat vind u belangrijk?
-            </h1>
-            <h2>
-                Geef aan hoe belangrijk de onderstaande punten zijn.
-            </h2>
             <section id="preferences">
-                <label>
-                    Koffieshops
-                </label>
-                <input name="coffeeshop-preference" type="range" min="1" max="10" value="9">
-                </input>
-                <label>
-                    Bars
-                </label>
-                <input name="bar-preference" type="range" min="1" max="10" value="8">
-                </input>
-                <label>
-                    Sportscholen
-                </label>
-                <input name="gym-preference" type="range" min="1" max="10" value="6">
-                </input>
-                <label>
-                    Parken
-                </label>
-                <input name="park-preference" type="range" min="1" max="10" value="7">
-                </input>
-                <label>
-                    Scholen
-                </label>
-                <input name="school-preference" type="range" min="1" max="10" value="2">
-                </input>
+                <h1>
+                    Wat vind u belangrijk?
+                </h1>
+                <h2>
+                    Geef aan hoe belangrijk de onderstaande punten zijn.
+                </h2>
+                <div id="preferencesInputs">
+                </div>
+                <a href="#map">
+                    <button class="btn btn--block btn--primary">
+                        Sla voorkeuren op
+                    </button>
+                </a>
             </section>
-            <button class="btn btn--block btn--primary">
-                Sla voorkeuren op
-            </button>
+            <section id="map">
+                <h1>
+                    In welke buurt zoekt u?
+                </h1>
+                <h2>
+                    Zoek via de kaart naar de buurt waar u wilt wonen.
+                </h2>
+                <div id="map-placeholder">
+                </div>
+                <div id="test-placeholder">
+                </div>
+                <ul id="property-list">
+                </ul>
+            </section>
+            <section id="detail">
+            </section>
         </main>
     </body>
+    <script src="static/js/libs/handlebars.js" type="text/javascript">
+    </script>
+    <script src="static/js/libs/routie.js" type="text/javascript">
+    </script>
     <script src="static/js/libs/aja.js" type="text/javascript">
     </script>
-    <script src="static/js/app.js" type="text/javascript">
+    <script id="templatePreferences" type="text/x-handlebars-template">
+        {{#if lable}}
+			<label>{{lable}}</label>
+		{{/if}}
+		{{#if value}}
+			 <input max="10" min="1" name="coffeeshop-preference" type="range" value="{{value}}"></input>
+		{{/if}}
+    </script>
+    <script id="templateListItem" type="text/x-handlebars-template">
+        {{#if id}}
+		    	<li>
+		        <a href="#detail/{{id}}">{{adr}}</a>
+		       </li>
+	     {{/if}}
+    </script>
+    <script id="templateDetail" type="text/x-handlebars-template">
+        {{#if Adres}}
+			<h1 class="detail__titile">{{Adres}}</h1>
+		{{/if}}
+		{{#if Postcode}}
+			<span>{{Postcode}} {{Plaats}}</span>
+		{{/if}}
+		{{#if Prijs}}
+			<p class="detail__price">&euro; {{Prijs.Koopprijs}} {{Prijs.KoopAbbreviation}}</p>
+		{{/if}}
+
+		{{#if HoofdFoto}}
+			<img src="{{HoofdFoto}}"/>
+		{{/if}}
+		<h3>Fit</h3>
+		<progress value="88" max="100"></progress>
+		{{#if VolledigeOmschrijving}}
+		<h3>Omschrijving</h3>
+		<span>(gebaseerd op uw voorkeuren)</span>
+			<p class="detail__description">{{VolledigeOmschrijving}}</p>
+		{{/if}}
+    </script>
+    <script id="templateMap" type="text/x-handlebars-template">
+    </script>
+    <script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEVr97xaOlXm63obopi1onuiMc56iriFA&libraries=places&callback=myFundaTest.initMap">
     </script>
 </html>
+<script src="static/js/funda-maps.js" type="text/javascript">
+</script>
+<script>
+    var myFundaTest = new FundaTest({
+			sInstanceName: 'myFundaTest',
+			sTargetContainerId: 'test-placeholder',
+			sMapId: 'map-placeholder',
+			sAanbodApiBasePath: 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json',
+			sApiKey: '271175433a7c4fe2a45750d385dd9bfd'
+		});
+
+		myFundaTest.doStuff();
+</script>
+<script src="static/js/app.js" type="text/javascript">
+</script>

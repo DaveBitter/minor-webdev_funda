@@ -13,6 +13,15 @@ h2 {
     font-size: 1em;
 }
 
+a {
+    text-decoration: none;
+}
+
+img[src='static/images/icons/place.png'] {
+	width: 16px;
+	height: 16px;
+}
+
 header {
     display: flex;
     align-content: space-between;
@@ -45,6 +54,43 @@ main {
 
 #preferences input[type="range"] {
     margin: 2em 0;
+}
+
+#map-placeholder {
+    height: 20em;
+}
+
+#property-list {
+    list-style: none;
+    padding: 0;
+}
+
+#property-list li {
+    padding: 1em;
+    border-bottom: 1px solid #EDEDED
+}
+
+#property-list a {
+    color: #0071B3;
+}
+
+#detail span {
+    color: #999;
+    margin-top: 0;
+}
+#detail h3 {
+	margin-bottom: 0;
+}
+#detail img {
+    max-width: 100%;
+}
+
+#detail progress {
+    width: 100%;
+}
+
+.detail__title, .detail__description {
+    color: #333;
 }
 
 .btn, .btn:hover, .btn:focus {
@@ -146,4 +192,8 @@ input[type=range]:focus::-ms-fill-lower {
 
 input[type=range]:focus::-ms-fill-upper {
     background: #999999;
+}
+
+.hide {
+    display: none !important;
 }
