@@ -51,9 +51,7 @@ FundaTest.prototype.initMap = function() {
         },
         zoom: 14
     });
-
-
-   sSearchQuery = 'koop/heel-nederland';
+    sSearchQuery = 'koop/heel-nederland';
     //this.GenerateMapFromImageTiles(this.oMap, sSearchQuery);
     this.GenerateMapFromDataTiles(this.oMap, sSearchQuery);
 }
@@ -68,6 +66,7 @@ FundaTest.prototype.GenerateMapFromDataTiles = function(oMap, sSearchQuery) {
         var oMapTile = document.getElementById(sDivId);
         var propertyList = document.getElementById('property-list');
         propertyList.innerHTML = '';
+        console.log(oTileData)
         for (var i = 0, n = oTileData.points.length; i < n; i++) {
             // This is the object we've found.
             var oPoint = oTileData.points[i];
@@ -169,9 +168,28 @@ FundaMapType.prototype.loadJsonpWrapper = function(sUrl, sCallbackMethod) {
 FundaMapType.prototype.getJsonpDoc = function(sUrl, funcCallback) {
     var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
     window[callbackName] = function(data) {
-        delete window[callbackName];
-        document.body.removeChild(script);
-        funcCallback(data);
+        // data.points = data.points.slice(0, 3)
+        var service = new google.maps.places.PlacesService(mapPlaces);
+        service.nearbySearch({
+            location: {
+                lat: data.points[0].y,
+                lng: data.points[0].x
+            },
+            radius: 500,
+            type: ['store']
+        }, callback);
+
+        function callback(results, status) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                data.places = results;
+                delete window[callbackName];
+                document.body.removeChild(script);
+                funcCallback(data);
+            }
+        }
+        // delete window[callbackName];
+        // document.body.removeChild(script);
+        // funcCallback(data);
     };
     var script = document.createElement('script');
     script.src = sUrl + (sUrl.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
