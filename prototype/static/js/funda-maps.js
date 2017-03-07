@@ -66,7 +66,6 @@ FundaTest.prototype.GenerateMapFromDataTiles = function(oMap, sSearchQuery) {
         var oMapTile = document.getElementById(sDivId);
         var propertyList = document.getElementById('property-list');
         propertyList.innerHTML = '';
-        console.log(oTileData)
         for (var i = 0, n = oTileData.points.length; i < n; i++) {
             // This is the object we've found.
             var oPoint = oTileData.points[i];
@@ -81,6 +80,23 @@ FundaTest.prototype.GenerateMapFromDataTiles = function(oMap, sSearchQuery) {
             marker.style.position = 'absolute';
             marker.style.left = Math.floor(-(iMarkerWidth / 2) + iTileWidth * ((oPoint.x - oTileData.lng) / oTileData.spanlng)) + 'px';
             marker.style.top = Math.floor(-(iMarkerHeight / 2) + iTileHeight - iTileHeight * ((oPoint.y - oTileData.lat) / oTileData.spanlat)) + 'px';
+            marker.src = sMarkerIcon;
+            oMapTile.appendChild(marker);
+        }
+        for (var i = 0, n = oTileData.places.length; i < n; i++) {
+            // This is the object we've found.
+            var oPlace = oTileData.places[i];
+            var propertyListItemTemplate = document.getElementById('templateListItem'),
+                source = propertyListItemTemplate.innerHTML,
+                compile = Handlebars.compile(source),
+                html = '';
+            html = compile(oPlace);
+            propertyList.innerHTML += html;
+            // Create and position an HTML element.
+            var marker = document.createElement('img');
+            marker.style.position = 'absolute';
+            marker.style.left = Math.floor(-(iMarkerWidth / 2) + iTileWidth * ((oPlace.x - oTileData.lng) / oTileData.spanlng)) + 'px';
+            marker.style.top = Math.floor(-(iMarkerHeight / 2) + iTileHeight - iTileHeight * ((oPlace.y - oTileData.lat) / oTileData.spanlat)) + 'px';
             marker.src = sMarkerIcon;
             oMapTile.appendChild(marker);
         }
