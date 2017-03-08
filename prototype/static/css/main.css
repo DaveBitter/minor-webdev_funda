@@ -60,17 +60,17 @@ main {
     height: 20em;
 }
 
-#property-list {
+ul {
     list-style: none;
     padding: 0;
 }
 
-#property-list li {
+ul li {
     padding: 1em;
     border-bottom: 1px solid #EDEDED
 }
 
-#property-list a {
+ul a {
     color: #0071B3;
 }
 
@@ -93,16 +93,27 @@ main {
     color: #333;
 }
 
+.btn-group {
+	display: flex;
+	flex-direction: row;
+}
+
+.btn-group > button {
+	flex-grow: 1;
+}
+
 .btn, .btn:hover, .btn:focus {
     border: none;
     outline: none;
-}
-
-.btn--primary {
     padding: 1em;
     border-radius: .2em;
+     background-color: ##E6F2F7;
+    color: #999;
+}
+
+.btn--primary, button.active {
     background-color: #F7A100;
-    color: #fff;
+    color: #fff !important;
 }
 
 .btn--block {

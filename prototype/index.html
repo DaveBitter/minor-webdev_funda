@@ -31,7 +31,8 @@
                     </button>
                 </a>
             </section>
-            <section id='mapPlaces'></section>
+            <section id="mapPlaces">
+            </section>
             <section id="map">
                 <h1>
                     In welke buurt zoekt u?
@@ -41,12 +42,24 @@
                 </h2>
                 <div id="map-placeholder">
                 </div>
-                <div id="test-placeholder">
+                <div class="btn-group">
+                    <button class="btn btn--block active" id="property-button">
+                        Huizen
+                    </button>
+                    <button class="btn btn--block" id="services-button">
+                        Voorzieningen
+                    </button>
+                </div>
+                <div id="test-placeholder" style="opacity: 0;    height: 0;">
                 </div>
                 <ul id="property-list">
                 </ul>
+                <ul id="services-list">
+                </ul>
             </section>
             <section id="detail">
+            </section>
+            <section id="place">
             </section>
         </main>
     </body>
@@ -71,8 +84,18 @@
 		       </li>
 	     {{/if}}
     </script>
-    <script id="templateDetail" type="text/x-handlebars-template">
-        {{#if Adres}}
+</html>
+<script id="templateServicesListItem" type="text/x-handlebars-template">
+    {{#if id}}
+		    	<li>
+		    	{{#if name}}
+		        <a href="#place/{{id}}">{{name}}</a>
+		       {{/if}}
+		       </li>
+	     {{/if}}
+</script>
+<script id="templateDetail" type="text/x-handlebars-template">
+    {{#if Adres}}
 			<h1 class="detail__titile">{{Adres}}</h1>
 		{{/if}}
 		{{#if Postcode}}
@@ -92,12 +115,14 @@
 		<span>(gebaseerd op uw voorkeuren)</span>
 			<p class="detail__description">{{VolledigeOmschrijving}}</p>
 		{{/if}}
-    </script>
-    <script id="templateMap" type="text/x-handlebars-template">
-    </script>
-    <script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEVr97xaOlXm63obopi1onuiMc56iriFA&libraries=places&callback=myFundaTest.initMap">
-    </script>
-</html>
+</script>
+<script id="templatePlace" type="text/x-handlebars-template">
+
+</script>
+<script id="templateMap" type="text/x-handlebars-template">
+</script>
+<script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEVr97xaOlXm63obopi1onuiMc56iriFA&libraries=places&callback=myFundaTest.initMap">
+</script>
 <script src="static/js/funda-maps.js" type="text/javascript">
 </script>
 <script>

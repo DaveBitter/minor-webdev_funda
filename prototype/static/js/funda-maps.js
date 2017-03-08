@@ -6,6 +6,8 @@ function FundaTest(oOptions) {
     this.MARKER_HEIGHT = 32;
     this.MARKER_ICON = 'http://www.fundainbusiness.nl/img/kaart/marker/marker-small.png';
     this.init()
+    localStorage.setItem("bars", "")
+    localStorage.setItem("parks", "")
 }
 FundaTest.prototype.init = function() {
     this.oTargetDoc = document.getElementById(this.opt.sTargetContainerId);
@@ -83,22 +85,16 @@ FundaTest.prototype.GenerateMapFromDataTiles = function(oMap, sSearchQuery) {
             marker.src = sMarkerIcon;
             oMapTile.appendChild(marker);
         }
-        for (var i = 0, n = oTileData.places.length; i < n; i++) {
-            // This is the object we've found.
-            var oPlace = oTileData.places[i];
-            var propertyListItemTemplate = document.getElementById('templateListItem'),
-                source = propertyListItemTemplate.innerHTML,
+        var servicesList = document.getElementById('services-list');
+        servicesList.innerHTML = '';
+        for (var i = 0, n = oTileData.bars.length; i < n; i++) {
+            var oBar = oTileData.bars[i];
+            var servicesListItemTemplate = document.getElementById('templateServicesListItem'),
+                source = servicesListItemTemplate.innerHTML,
                 compile = Handlebars.compile(source),
                 html = '';
-            html = compile(oPlace);
-            propertyList.innerHTML += html;
-            // Create and position an HTML element.
-            var marker = document.createElement('img');
-            marker.style.position = 'absolute';
-            marker.style.left = Math.floor(-(iMarkerWidth / 2) + iTileWidth * ((oPlace.x - oTileData.lng) / oTileData.spanlng)) + 'px';
-            marker.style.top = Math.floor(-(iMarkerHeight / 2) + iTileHeight - iTileHeight * ((oPlace.y - oTileData.lat) / oTileData.spanlat)) + 'px';
-            marker.src = sMarkerIcon;
-            oMapTile.appendChild(marker);
+            html = compile(oBar);
+            servicesList.innerHTML += html;
         }
     });
     // Use this map type as overlay.
@@ -192,15 +188,59 @@ FundaMapType.prototype.getJsonpDoc = function(sUrl, funcCallback) {
                 lng: data.points[0].x
             },
             radius: 500,
-            type: ['store']
-        }, callback);
+            type: ['bar']
+        }, getSchools);
+
+        function getSchools(results, status) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                data.bars = results
+            }
+            service.nearbySearch({
+                location: {
+                    lat: data.points[0].y,
+                    lng: data.points[0].x
+                },
+                radius: 500,
+                type: ['gym']
+            }, getGyms);
+        }
+
+        function getGyms(results, status) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                data.gyms = results
+            }
+            service.nearbySearch({
+                location: {
+                    lat: data.points[0].y,
+                    lng: data.points[0].x
+                },
+                radius: 500,
+                type: ['school']
+            }, getParks);
+        }
+
+        function getParks(results, status) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                data.schools = results
+            }
+            service.nearbySearch({
+                location: {
+                    lat: data.points[0].y,
+                    lng: data.points[0].x
+                },
+                radius: 500,
+                type: ['parks']
+            }, callback);
+        }
 
         function callback(results, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
-                data.places = results;
+                data.parks = results;
                 delete window[callbackName];
                 document.body.removeChild(script);
                 funcCallback(data);
+                localStorage.bars += JSON.stringify(data.bars)
+                localStorage.parks += JSON.stringify(data.parks)
             }
         }
         // delete window[callbackName];
