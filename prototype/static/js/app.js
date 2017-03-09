@@ -124,19 +124,17 @@
     }
     var events = {
         clickEvent: function() {
-            elements.propertyButton.addEventListener('click', function(e) {
-                console.log(e)
-                elements.propertyButton.classList.add('active')
-                elements.servicesButton.classList.remove('active')
-                elements.propertyList.classList.remove('hide')
-                elements.servicesList.classList.add('hide')
+            document.querySelector('#property-button').addEventListener('click', function(e) {
+                document.querySelector('#property-button').classList.add('active')
+                document.querySelector('#services-button').classList.remove('active')
+                document.querySelector('#property-list').classList.remove('hide')
+                document.querySelector('#services-list').classList.add('hide')
             })
-            elements.servicesButton.addEventListener('click', function(e) {
-                console.log(e)
-                elements.propertyButton.classList.remove('active')
-                elements.servicesButton.classList.add('active')
-                elements.propertyList.classList.add('hide')
-                elements.servicesList.classList.remove('hide')
+            document.querySelector('#services-button').addEventListener('click', function(e) {
+                document.querySelector('#property-button').classList.remove('active')
+                document.querySelector('#services-button').classList.add('active')
+                document.querySelector('#property-list').classList.add('hide')
+                document.querySelector('#services-list').classList.remove('hide')
             })
         }
     }

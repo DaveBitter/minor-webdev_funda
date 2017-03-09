@@ -189,7 +189,7 @@ FundaMapType.prototype.getJsonpDoc = function(sUrl, funcCallback) {
             },
             radius: 500,
             type: ['bar']
-        }, getSchools);
+        }, callback);
 
         function getSchools(results, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -235,13 +235,12 @@ FundaMapType.prototype.getJsonpDoc = function(sUrl, funcCallback) {
 
         function callback(results, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
-                data.parks = results;
+                data.bars = results;
                 delete window[callbackName];
                 document.body.removeChild(script);
                 funcCallback(data);
                 localStorage.bars += JSON.stringify(data.bars)
-                localStorage.parks += JSON.stringify(data.parks)
-            }
+           }
         }
         // delete window[callbackName];
         // document.body.removeChild(script);
