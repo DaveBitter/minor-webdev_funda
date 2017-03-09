@@ -35,7 +35,8 @@
         preferences: document.querySelector('#templatePreferences'),
         map: document.querySelector('#templateMap'),
         listItem: document.querySelector('#templateListItem'),
-        detail: document.querySelector('#templateDetail')
+        detail: document.querySelector('#templateDetail'),
+        place: document.querySelector('#templatePlace'),
     }
     var preferences = {
         coffeeshop: {
@@ -108,19 +109,32 @@
     }
     var renderPlace = function(id) {
         var bars = localStorage.getItem("bars")
-        var parks = localStorage.getItem("parks")
-        console.log(JSON.parse(bars), JSON.parse(parks))
+        bars = JSON.parse(bars)
         elements.preferences.classList.add('hide');
         elements.map.classList.add('hide');
         elements.detail.classList.add('hide');
         elements.place.classList.remove('hide');
         elements.place.innerHTML = ''
-        id = 'ChIJN1t_tDeuEmsRUsoyG83frY4'
-        var url = config.MAPSBASEURL + config.MAPSDETAILURL + id + config.MAPSAPIKEY
-        console.log(url)
-        aja().url(url).on('success', function(placeData) {
-            console.log(placeData)
-        }).go();
+        var placeData = bars.find(function(result) {
+            return result.id == id
+        });
+        placeData.photo = formatPlaceImage(placeData.photos[0].html_attributions[0])
+        console.log(placeData)
+        var place = elements.place,
+            placeTemplate = templates.place,
+            source = placeTemplate.innerHTML,
+            compile = Handlebars.compile(source),
+            html = '';
+        html = compile(placeData);
+        place.innerHTML += html;
+        return
+    }
+    var formatPlaceImage = function(element) {
+        var start = element.indexOf("=") + 2;
+        var end = element.indexOf("photos") - 3;
+        var url = element.substr(start, end);
+        return url
+
     }
     var events = {
         clickEvent: function() {

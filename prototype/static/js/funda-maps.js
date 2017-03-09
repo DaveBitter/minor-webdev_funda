@@ -239,7 +239,7 @@ FundaMapType.prototype.getJsonpDoc = function(sUrl, funcCallback) {
                 delete window[callbackName];
                 document.body.removeChild(script);
                 funcCallback(data);
-                localStorage.bars += JSON.stringify(data.bars)
+                localStorage.setItem("bars", JSON.stringify(data.bars));
            }
         }
         // delete window[callbackName];
