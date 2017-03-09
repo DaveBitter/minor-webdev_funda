@@ -5,6 +5,7 @@ function FundaTest(oOptions) {
     this.MARKER_WIDTH = 32;
     this.MARKER_HEIGHT = 32;
     this.MARKER_ICON = 'http://www.fundainbusiness.nl/img/kaart/marker/marker-small.png';
+    this.PLACE_ICON = 'static/images/icons/place.png';
     this.init()
     localStorage.setItem("bars", "")
     localStorage.setItem("parks", "")
@@ -51,7 +52,7 @@ FundaTest.prototype.initMap = function() {
             lat: 52.353344,
             lng: 4.896417
         },
-        zoom: 14
+        zoom: 16
     });
     sSearchQuery = 'koop/heel-nederland';
     //this.GenerateMapFromImageTiles(this.oMap, sSearchQuery);
@@ -63,8 +64,10 @@ FundaTest.prototype.GenerateMapFromDataTiles = function(oMap, sSearchQuery) {
     var iMarkerWidth = this.MARKER_WIDTH;
     var iMarkerHeight = this.MARKER_HEIGHT;
     var sMarkerIcon = this.MARKER_ICON;
+    var sPlaceIcon = this.PLACE_ICON;
     // Instantiate our custom map tile handler.
     var oMapType = new FundaMapType(new google.maps.Size(iTileWidth, iTileHeight), sSearchQuery, function(oTileData, sDivId) {
+        calcMatch(oTileData)
         var oMapTile = document.getElementById(sDivId);
         var propertyList = document.getElementById('property-list');
         propertyList.innerHTML = '';
@@ -87,15 +90,89 @@ FundaTest.prototype.GenerateMapFromDataTiles = function(oMap, sSearchQuery) {
         }
         var servicesList = document.getElementById('services-list');
         servicesList.innerHTML = '';
-        for (var i = 0, n = oTileData.bars.length; i < n; i++) {
-            var oBar = oTileData.bars[i];
+        if (oTileData.bars !== null) {
+            for (var i = 0, n = oTileData.bars.length; i < n; i++) {
+                var oBar = oTileData.bars[i];
+                oBar.y = oBar.geometry.location.lat();
+                oBar.x = oBar.geometry.location.lng();
+                var servicesListItemTemplate = document.getElementById('templateServicesListItem'),
+                    source = servicesListItemTemplate.innerHTML,
+                    compile = Handlebars.compile(source),
+                    html = '';
+                html = compile(oBar);
+                servicesList.innerHTML += html;
+                var marker = document.createElement('img');
+                marker.style.position = 'absolute';
+                marker.style.left = Math.floor(-(iMarkerWidth / 2) + iTileWidth * ((oBar.x - oTileData.lng) / oTileData.spanlng)) + 'px';
+                marker.style.top = Math.floor(-(iMarkerHeight / 2) + iTileHeight - iTileHeight * ((oBar.y - oTileData.lat) / oTileData.spanlat)) + 'px';
+                marker.src = sPlaceIcon;
+                oMapTile.appendChild(marker);
+            }
+        }
+        if (oTileData.gyms !== null) {
+        for (var i = 0, n = oTileData.gyms.length; i < n; i++) {
+            var oGym = oTileData.gyms[i];
+            oGym.y = oGym.geometry.location.lat();
+            oGym.x = oGym.geometry.location.lng();
             var servicesListItemTemplate = document.getElementById('templateServicesListItem'),
                 source = servicesListItemTemplate.innerHTML,
                 compile = Handlebars.compile(source),
                 html = '';
-            html = compile(oBar);
+            html = compile(oGym);
             servicesList.innerHTML += html;
-        }
+            var marker = document.createElement('img');
+            marker.style.position = 'absolute';
+            marker.style.left = Math.floor(-(iMarkerWidth / 2) + iTileWidth * ((oGym.x - oTileData.lng) / oTileData.spanlng)) + 'px';
+            marker.style.top = Math.floor(-(iMarkerHeight / 2) + iTileHeight - iTileHeight * ((oGym.y - oTileData.lat) / oTileData.spanlat)) + 'px';
+            marker.src = sPlaceIcon;
+            oMapTile.appendChild(marker);
+        }}
+        if (oTileData.schools !== null) {
+        for (var i = 0, n = oTileData.schools.length; i < n; i++) {
+            var oSchool = oTileData.schools[i];
+            oSchool.y = oSchool.geometry.location.lat();
+            oSchool.x = oSchool.geometry.location.lng();
+            var servicesListItemTemplate = document.getElementById('templateServicesListItem'),
+                source = servicesListItemTemplate.innerHTML,
+                compile = Handlebars.compile(source),
+                html = '';
+            html = compile(oSchool);
+            servicesList.innerHTML += html;
+            var marker = document.createElement('img');
+            marker.style.position = 'absolute';
+            marker.style.left = Math.floor(-(iMarkerWidth / 2) + iTileWidth * ((oSchool.x - oTileData.lng) / oTileData.spanlng)) + 'px';
+            marker.style.top = Math.floor(-(iMarkerHeight / 2) + iTileHeight - iTileHeight * ((oSchool.y - oTileData.lat) / oTileData.spanlat)) + 'px';
+            marker.src = sPlaceIcon;
+            oMapTile.appendChild(marker);
+        }}
+       if (oTileData.parks !== null) {
+        for (var i = 0, n = oTileData.parks.length; i < n; i++) {
+            var oPark = oTileData.parks[i];
+            oPark.y = oPark.geometry.location.lat();
+            oPark.x = oPark.geometry.location.lng();
+            var servicesListItemTemplate = document.getElementById('templateServicesListItem'),
+                source = servicesListItemTemplate.innerHTML,
+                compile = Handlebars.compile(source),
+                html = '';
+            html = compile(oPark);
+            servicesList.innerHTML += html;
+            var marker = document.createElement('img');
+            marker.style.position = 'absolute';
+            marker.style.left = Math.floor(-(iMarkerWidth / 2) + iTileWidth * ((oPark.x - oTileData.lng) / oTileData.spanlng)) + 'px';
+            marker.style.top = Math.floor(-(iMarkerHeight / 2) + iTileHeight - iTileHeight * ((oPark.y - oTileData.lat) / oTileData.spanlat)) + 'px';
+            marker.src = sPlaceIcon;
+            oMapTile.appendChild(marker);
+        }}
+        setTimeout(function() {
+            var value = JSON.parse(localStorage.hoodMatch)
+            if (value > 10) {
+                value = 10
+            }
+            document.querySelector('#message').innerHTML = ""
+            document.querySelector('#message-container').classList.add("hide")
+            document.querySelector('#match').classList.remove("hide")
+            document.querySelector('#hood-match').value = value;
+        }, 1000);
     });
     // Use this map type as overlay.
     oMap.overlayMapTypes.insertAt(0, oMapType);
@@ -156,6 +233,7 @@ FundaMapType.prototype.maxZoom = 19;
 FundaMapType.prototype.name = 'Tile #s';
 FundaMapType.prototype.alt = 'Tile Coordinate Map Type';
 FundaMapType.prototype.getTile = function(coord, zoom, ownerDocument) {
+    localStorage.hoodMatch = "5"
     var div = ownerDocument.createElement('div');
     div.id = 'funda_tile_' + zoom + '_' + coord.x + '-' + coord.y;
     div.innerHTML = coord;
@@ -180,6 +258,9 @@ FundaMapType.prototype.loadJsonpWrapper = function(sUrl, sCallbackMethod) {
 FundaMapType.prototype.getJsonpDoc = function(sUrl, funcCallback) {
     var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
     window[callbackName] = function(data) {
+        document.querySelector('#message-container').classList.remove("hide")
+        document.querySelector('#match').classList.add("hide")
+        document.querySelector('#message').innerHTML = "buurt aan het onderzoeken"
         // data.points = data.points.slice(0, 3)
         var service = new google.maps.places.PlacesService(mapPlaces);
         service.nearbySearch({
@@ -189,11 +270,13 @@ FundaMapType.prototype.getJsonpDoc = function(sUrl, funcCallback) {
             },
             radius: 500,
             type: ['bar']
-        }, callback);
+        }, getGyms);
 
-        function getSchools(results, status) {
+        function getGyms(results, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
                 data.bars = results
+            } else {
+                data.bars = null;
             }
             service.nearbySearch({
                 location: {
@@ -202,12 +285,14 @@ FundaMapType.prototype.getJsonpDoc = function(sUrl, funcCallback) {
                 },
                 radius: 500,
                 type: ['gym']
-            }, getGyms);
+            }, getSchools);
         }
 
-        function getGyms(results, status) {
+        function getSchools(results, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
                 data.gyms = results
+            } else {
+                data.gyms = null;
             }
             service.nearbySearch({
                 location: {
@@ -222,6 +307,8 @@ FundaMapType.prototype.getJsonpDoc = function(sUrl, funcCallback) {
         function getParks(results, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
                 data.schools = results
+            } else {
+                data.schools = null;
             }
             service.nearbySearch({
                 location: {
@@ -235,18 +322,42 @@ FundaMapType.prototype.getJsonpDoc = function(sUrl, funcCallback) {
 
         function callback(results, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
-                data.bars = results;
-                delete window[callbackName];
-                document.body.removeChild(script);
-                funcCallback(data);
+                data.parks = results;
                 localStorage.setItem("bars", JSON.stringify(data.bars));
-           }
+            } else {
+                data.parks = null;
+            }
+            delete window[callbackName];
+            document.body.removeChild(script);
+            funcCallback(data);
         }
-        // delete window[callbackName];
-        // document.body.removeChild(script);
-        // funcCallback(data);
     };
     var script = document.createElement('script');
     script.src = sUrl + (sUrl.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
     document.body.appendChild(script);
+}
+var calcMatch = function(data) {
+    var preferences = JSON.parse(localStorage.preferences)
+    var hoodMatch = JSON.parse(localStorage.hoodMatch)
+    if (data.bars == null && preferences.bar.value >= 5) {
+        hoodMatch -= 1
+    } else {
+        hoodMatch += 1
+    }
+    if (data.gyms == null && preferences.gym.value >= 5) {
+        hoodMatch -= 1
+    } else {
+        hoodMatch += 1
+    }
+    if (data.schools == null && preferences.school.value >= 5) {
+        hoodMatch -= 1
+    } else {
+        hoodMatch += 1
+    }
+    if (data.parks == null && preferences.park.value >= 5) {
+        hoodMatch -= 1
+    } else {
+        hoodMatch += 1
+    }
+    localStorage.hoodMatch = JSON.stringify(hoodMatch)
 }

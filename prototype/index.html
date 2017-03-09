@@ -5,10 +5,12 @@
             Funda | Quick, Hack, Prototype for Concept
         </title>
         <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-            <link href="static/css/main.css" rel="stylesheet" type="text/css">
+            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+                <link href="static/css/main.css" rel="stylesheet" type="text/css">
+                </link>
+                <meta content="width=device-width, initial-scale=1" name="viewport">
+                </meta>
             </link>
-            <meta content="width=device-width, initial-scale=1" name="viewport">
-            </meta>
         </link>
     </head>
     <body>
@@ -42,17 +44,31 @@
                 </h2>
                 <div id="map-placeholder">
                 </div>
+                <div class=" hide" id="message-container">
+                    <i aria-hidden="true" class="fa fa-spinner">
+                    </i>
+                    <p id="message">
+                    </p>
+                </div>
+
+                <div class="hide" id="match">
+                    <p>
+                        Buurt Match
+                    </p>
+                    <progress id="hood-match" max="10">
+                    </progress>
+                </div>
                 <div class="btn-group">
-                    <button class="btn btn--block active" id="property-button">
-                        Huizen
-                    </button>
-                    <button class="btn btn--block" id="services-button">
+                    <button class="btn btn--block active" id="services-button">
                         Voorzieningen
+                    </button>
+                    <button class="btn btn--block" id="property-button">
+                        Huizen
                     </button>
                 </div>
                 <div id="test-placeholder" style="opacity: 0;    height: 0;">
                 </div>
-                <ul id="property-list">
+                <ul id="property-list" class="hide">
                 </ul>
                 <ul id="services-list">
                 </ul>
@@ -74,7 +90,7 @@
             <label>{{lable}}</label>
         {{/if}}
         {{#if value}}
-             <input max="10" min="1" name="coffeeshop-preference" type="range" value="{{value}}"></input>
+             <input max="10" min="1" id="{{lable}}-preference" type="range" value="{{value}}"></input>
         {{/if}}
     </script>
     <script id="templateListItem" type="text/x-handlebars-template">
@@ -108,11 +124,9 @@
         {{#if HoofdFoto}}
             <img src="{{HoofdFoto}}"/>
         {{/if}}
-        <h3>Fit</h3>
-        <progress value="88" max="100"></progress>
+
         {{#if VolledigeOmschrijving}}
         <h3>Omschrijving</h3>
-        <span>(gebaseerd op uw voorkeuren)</span>
             <p class="detail__description">{{VolledigeOmschrijving}}</p>
         {{/if}}
 </script>

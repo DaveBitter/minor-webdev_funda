@@ -39,25 +39,21 @@
         place: document.querySelector('#templatePlace'),
     }
     var preferences = {
-        coffeeshop: {
-            lable: "Koffieshops",
-            value: 9
-        },
         bar: {
-            lable: "Bars",
-            value: 8
+            lable: "bars",
+            value: 5
         },
         gym: {
-            lable: "Sportscholen",
-            value: 6
-        },
-        park: {
-            lable: "Parken",
-            value: 7
+            lable: "sportscholen",
+            value: 5
         },
         school: {
-            lable: "Scholen",
-            value: 2
+            lable: "scholen",
+            value: 5
+        },
+        park: {
+            lable: "parken",
+            value: 5
         }
     }
     var renderPreferences = function() {
@@ -68,11 +64,13 @@
             source = preferencesTemplate.innerHTML,
             compile = Handlebars.compile(source),
             html = '';
-        Object.keys(preferences).map(function(objectKey, index) {
-            var value = preferences[objectKey];
+        var preferencesList = JSON.parse(localStorage.preferences)
+        Object.keys(preferencesList).map(function(objectKey, index) {
+            var value = preferencesList[objectKey];
             html = compile(value);
             preferencesInputs.innerHTML += html;
         });
+        events.changeEvent()
     }
     var renderMap = function() {
         elements.preferences.classList.add('hide');
@@ -119,7 +117,6 @@
             return result.id == id
         });
         placeData.photo = formatPlaceImage(placeData.photos[0].html_attributions[0])
-        console.log(placeData)
         var place = elements.place,
             placeTemplate = templates.place,
             source = placeTemplate.innerHTML,
@@ -134,7 +131,12 @@
         var end = element.indexOf("photos") - 3;
         var url = element.substr(start, end);
         return url
-
+    }
+    var setPreference = function(lable, value) {
+        var currentPreferences = JSON.parse(localStorage.preferences)
+        currentPreferences[lable].value = value
+        console.log(1, currentPreferences)
+        localStorage.preferences = JSON.stringify(currentPreferences)
     }
     var events = {
         clickEvent: function() {
@@ -150,6 +152,20 @@
                 document.querySelector('#property-list').classList.add('hide')
                 document.querySelector('#services-list').classList.remove('hide')
             })
+        },
+        changeEvent: function() {
+            document.querySelector('#bars-preference').addEventListener('change', function(e) {
+                setPreference("bar", e.target.value)
+            });
+            document.querySelector('#sportscholen-preference').addEventListener('change', function(e) {
+                setPreference("gym", e.target.value)
+            });
+            document.querySelector('#parken-preference').addEventListener('change', function(e) {
+                setPreference("park", e.target.value)
+            });
+            document.querySelector('#scholen-preference').addEventListener('change', function(e) {
+                setPreference("school", e.target.value)
+            });
         }
     }
     // routie
