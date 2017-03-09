@@ -4,6 +4,11 @@
     var app = {
         listen: function() {
             events.clickEvent()
+        },
+        init: function() {
+            if(localStorage.preferences == undefined) {
+                localStorage.setItem("preferences", JSON.stringify(preferences))
+            }
         }
     }
     var config = {
@@ -64,6 +69,10 @@
             source = preferencesTemplate.innerHTML,
             compile = Handlebars.compile(source),
             html = '';
+
+         if(localStorage.preferences == undefined) {
+                localStorage.setItem("preferences", JSON.stringify(preferences))
+            }
         var preferencesList = JSON.parse(localStorage.preferences)
         Object.keys(preferencesList).map(function(objectKey, index) {
             var value = preferencesList[objectKey];
@@ -75,6 +84,7 @@
     var renderMap = function() {
         elements.preferences.classList.add('hide');
         elements.map.classList.remove('hide');
+        elements.detail.classList.add('hide');
         elements.place.classList.add('hide');
         var map = elements.map,
             mapTemplate = templates.map,
@@ -135,7 +145,6 @@
     var setPreference = function(lable, value) {
         var currentPreferences = JSON.parse(localStorage.preferences)
         currentPreferences[lable].value = value
-        console.log(1, currentPreferences)
         localStorage.preferences = JSON.stringify(currentPreferences)
     }
     var events = {
@@ -184,4 +193,5 @@
         }
     });
     app.listen()
+    app.init()
 })();

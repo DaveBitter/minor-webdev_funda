@@ -16,15 +16,19 @@
     <body>
         <header>
             <img src="static/images/logo.svg"/>
+            <a href="#">
+                <i aria-hidden="true" class="fa fa-sliders">
+                </i>
+            </a>
         </header>
         <main>
             <section id="preferences">
                 <h1>
                     Wat vind u belangrijk?
                 </h1>
-                <h2>
+                <p>
                     Geef aan hoe belangrijk de onderstaande punten zijn.
-                </h2>
+                </p>
                 <div id="preferencesInputs">
                 </div>
                 <a href="#map">
@@ -39,9 +43,9 @@
                 <h1>
                     In welke buurt zoekt u?
                 </h1>
-                <h2>
+                <p>
                     Zoek via de kaart naar de buurt waar u wilt wonen.
-                </h2>
+                </p>
                 <div id="map-placeholder">
                 </div>
                 <div class=" hide" id="message-container">
@@ -50,11 +54,17 @@
                     <p id="message">
                     </p>
                 </div>
-
                 <div class="hide" id="match">
                     <p>
                         Buurt Match
                     </p>
+                    <sup>
+                        (gebasseerd op
+                        <a href="#">
+                            uw instellingen
+                        </a>
+                        )
+                    </sup>
                     <progress id="hood-match" max="10">
                     </progress>
                 </div>
@@ -68,7 +78,7 @@
                 </div>
                 <div id="test-placeholder" style="opacity: 0;    height: 0;">
                 </div>
-                <ul id="property-list" class="hide">
+                <ul class="hide" id="property-list">
                 </ul>
                 <ul id="services-list">
                 </ul>

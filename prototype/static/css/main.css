@@ -2,6 +2,7 @@ body {
     position: relative;
     margin: 0;
     font-family: 'Montserrat', sans-serif;
+    color: #333;
 }
 
 h1 {
@@ -13,8 +14,13 @@ h2 {
     font-size: 1em;
 }
 
+h1+p {
+    margin-top: 0;
+}
+
 a {
     text-decoration: none;
+    color: #0071B3;
 }
 
 img[src='static/images/icons/place.png'] {
@@ -24,7 +30,7 @@ img[src='static/images/icons/place.png'] {
 
 header {
     display: flex;
-    align-content: space-between;
+    justify-content: space-between;
     position: fixed;
     top: 0;
     left: 0;
@@ -42,12 +48,58 @@ header img {
     max-width: 6em;
 }
 
+header .fa {
+    margin-right: 1em;
+    margin-top: .2em;
+    color: #0071B3;
+    font-size: 1.5em;
+}
+
 main {
     padding: 0em 1em;
 }
 
 button {
     cursor: pointer;
+}
+
+
+/* Transitiion form hover.css */
+
+button {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+button:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 50%;
+    right: 50%;
+    bottom: 0;
+    background: #d4e3f5;
+    height: 4px;
+    -webkit-transition-property: left, right;
+    transition-property: left, right;
+    -webkit-transition-duration: 0.1s;
+    transition-duration: 0.1s;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
+
+button.btn--primary:before, button.active:before {
+    background: #d68b00;
+}
+
+button:hover:before, button:focus:before, button:active:before {
+    left: 0;
+    right: 0;
 }
 
 #preferences {
@@ -65,21 +117,24 @@ button {
 }
 
 #message-container, #match {
-    background-color: #F7A100;
+    background-color: #ECF1F7;
     padding: .5em;
     margin-bottom: 1em;
 }
 
 #message-container {
+    padding-left: 1em;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: flex-start;
 }
+
 #message-container i {
     margin-top: 1em;
+    margin-right: 1em;
     height: 1em;
     width: 1em;
-    color: #fff;
+    color: #333;
     animation-name: spinner;
     animation-duration: 1s;
     animation-iteration-count: infinite;
@@ -87,7 +142,16 @@ button {
 }
 
 #message {
-    color: #fff;
+    color: #333;
+    animation-name: fadeIn;
+    animation-duration: .5s;
+    animation-fill-mode: both
+}
+
+#match p, #match progress, #match sup {
+    animation-name: fadeIn;
+    animation-duration: .5s;
+    animation-fill-mode: both
 }
 
 #match progress {
@@ -96,7 +160,7 @@ button {
 }
 
 #match p {
-    color: #fff;
+    color: #333;
     margin-top: 0;
     margin-bottom: .3em;
 }
@@ -114,7 +178,7 @@ progress[value] {
 }
 
 progress::-moz-progress-bar {
-    background-color: #fff;
+    background-color: #0071B3;
 }
 
 progress[value]::-webkit-progress-bar {
@@ -128,18 +192,61 @@ progress[value]::-webkit-progress-value {
     background-size: 35px 20px, 100% 100%, 100% 100%;
     border-top-left-radius: .3rem;
     border-bottom-left-radius: .3rem;
-    background-color: #fff;
+    background-color: #0071B3;
 }
-
 
 ul {
     list-style: none;
     padding: 0;
+    animation-name: fadeIn;
+    animation-duration: .5s;
+    animation-fill-mode: both
 }
 
 ul li {
     padding: 1em;
     border-bottom: 1px solid #EDEDED
+}
+
+
+/* Transition from hover.cssl */
+
+ul li {
+    cursor: pointer;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+li a {
+    display: block;
+    cursor: pointer;
+}
+
+ul li:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #0071B3;
+    height: 2px;
+    -webkit-transform: translateY(4px);
+    transform: translateY(4px);
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    -webkit-transition-duration: 0.1s;
+    transition-duration: 0.1s;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
+
+ul li:hover:before, ul li:focus:before, ul li:active:before {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
 }
 
 ul a {
@@ -165,6 +272,7 @@ ul a {
 
 .detail__title, .detail__description {
     color: #333;
+    white-space: pre-wrap;
 }
 
 .btn-group {
@@ -176,12 +284,12 @@ ul a {
     flex-grow: 1;
 }
 
-.btn, .btn:hover, .btn:focus {
+.btn {
     border: none;
     outline: none;
     padding: 1em;
     border-radius: .2em;
-    background-color: ##E6F2F7;
+    background-color: #ECF1F7;
     color: #999;
 }
 
@@ -289,5 +397,14 @@ input[type=range]:focus::-ms-fill-upper {
     }
     100% {
         transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }

@@ -105,64 +105,75 @@ FundaTest.prototype.GenerateMapFromDataTiles = function(oMap, sSearchQuery) {
                 marker.style.position = 'absolute';
                 marker.style.left = Math.floor(-(iMarkerWidth / 2) + iTileWidth * ((oBar.x - oTileData.lng) / oTileData.spanlng)) + 'px';
                 marker.style.top = Math.floor(-(iMarkerHeight / 2) + iTileHeight - iTileHeight * ((oBar.y - oTileData.lat) / oTileData.spanlat)) + 'px';
-                marker.src = sPlaceIcon;
+                marker.style.width = "10px";
+                marker.style.height = "10px"
+                marker.src = oBar.icon;
                 oMapTile.appendChild(marker);
             }
         }
         if (oTileData.gyms !== null) {
-        for (var i = 0, n = oTileData.gyms.length; i < n; i++) {
-            var oGym = oTileData.gyms[i];
-            oGym.y = oGym.geometry.location.lat();
-            oGym.x = oGym.geometry.location.lng();
-            var servicesListItemTemplate = document.getElementById('templateServicesListItem'),
-                source = servicesListItemTemplate.innerHTML,
-                compile = Handlebars.compile(source),
-                html = '';
-            html = compile(oGym);
-            servicesList.innerHTML += html;
-            var marker = document.createElement('img');
-            marker.style.position = 'absolute';
-            marker.style.left = Math.floor(-(iMarkerWidth / 2) + iTileWidth * ((oGym.x - oTileData.lng) / oTileData.spanlng)) + 'px';
-            marker.style.top = Math.floor(-(iMarkerHeight / 2) + iTileHeight - iTileHeight * ((oGym.y - oTileData.lat) / oTileData.spanlat)) + 'px';
-            marker.src = sPlaceIcon;
-            oMapTile.appendChild(marker);
-        }}
+            for (var i = 0, n = oTileData.gyms.length; i < n; i++) {
+                var oGym = oTileData.gyms[i];
+                oGym.y = oGym.geometry.location.lat();
+                oGym.x = oGym.geometry.location.lng();
+                var servicesListItemTemplate = document.getElementById('templateServicesListItem'),
+                    source = servicesListItemTemplate.innerHTML,
+                    compile = Handlebars.compile(source),
+                    html = '';
+                html = compile(oGym);
+                servicesList.innerHTML += html;
+                var marker = document.createElement('img');
+                marker.style.position = 'absolute';
+                marker.style.left = Math.floor(-(iMarkerWidth / 2) + iTileWidth * ((oGym.x - oTileData.lng) / oTileData.spanlng)) + 'px';
+                marker.style.top = Math.floor(-(iMarkerHeight / 2) + iTileHeight - iTileHeight * ((oGym.y - oTileData.lat) / oTileData.spanlat)) + 'px';
+                marker.style.width = "10px";
+                marker.style.height = "10px"
+                marker.src = oBar.icon;
+                oMapTile.appendChild(marker);
+            }
+        }
         if (oTileData.schools !== null) {
-        for (var i = 0, n = oTileData.schools.length; i < n; i++) {
-            var oSchool = oTileData.schools[i];
-            oSchool.y = oSchool.geometry.location.lat();
-            oSchool.x = oSchool.geometry.location.lng();
-            var servicesListItemTemplate = document.getElementById('templateServicesListItem'),
-                source = servicesListItemTemplate.innerHTML,
-                compile = Handlebars.compile(source),
-                html = '';
-            html = compile(oSchool);
-            servicesList.innerHTML += html;
-            var marker = document.createElement('img');
-            marker.style.position = 'absolute';
-            marker.style.left = Math.floor(-(iMarkerWidth / 2) + iTileWidth * ((oSchool.x - oTileData.lng) / oTileData.spanlng)) + 'px';
-            marker.style.top = Math.floor(-(iMarkerHeight / 2) + iTileHeight - iTileHeight * ((oSchool.y - oTileData.lat) / oTileData.spanlat)) + 'px';
-            marker.src = sPlaceIcon;
-            oMapTile.appendChild(marker);
-        }}
-       if (oTileData.parks !== null) {
-        for (var i = 0, n = oTileData.parks.length; i < n; i++) {
-            var oPark = oTileData.parks[i];
-            oPark.y = oPark.geometry.location.lat();
-            oPark.x = oPark.geometry.location.lng();
-            var servicesListItemTemplate = document.getElementById('templateServicesListItem'),
-                source = servicesListItemTemplate.innerHTML,
-                compile = Handlebars.compile(source),
-                html = '';
-            html = compile(oPark);
-            servicesList.innerHTML += html;
-            var marker = document.createElement('img');
-            marker.style.position = 'absolute';
-            marker.style.left = Math.floor(-(iMarkerWidth / 2) + iTileWidth * ((oPark.x - oTileData.lng) / oTileData.spanlng)) + 'px';
-            marker.style.top = Math.floor(-(iMarkerHeight / 2) + iTileHeight - iTileHeight * ((oPark.y - oTileData.lat) / oTileData.spanlat)) + 'px';
-            marker.src = sPlaceIcon;
-            oMapTile.appendChild(marker);
-        }}
+            for (var i = 0, n = oTileData.schools.length; i < n; i++) {
+                var oSchool = oTileData.schools[i];
+                oSchool.y = oSchool.geometry.location.lat();
+                oSchool.x = oSchool.geometry.location.lng();
+                var servicesListItemTemplate = document.getElementById('templateServicesListItem'),
+                    source = servicesListItemTemplate.innerHTML,
+                    compile = Handlebars.compile(source),
+                    html = '';
+                html = compile(oSchool);
+                servicesList.innerHTML += html;
+                var marker = document.createElement('img');
+                marker.style.position = 'absolute';
+                marker.style.left = Math.floor(-(iMarkerWidth / 2) + iTileWidth * ((oSchool.x - oTileData.lng) / oTileData.spanlng)) + 'px';
+                marker.style.top = Math.floor(-(iMarkerHeight / 2) + iTileHeight - iTileHeight * ((oSchool.y - oTileData.lat) / oTileData.spanlat)) + 'px';
+                marker.style.width = "10px";
+                marker.style.height = "10px"
+                marker.src = oBar.icon;
+                oMapTile.appendChild(marker);
+            }
+        }
+        if (oTileData.parks !== null) {
+            for (var i = 0, n = oTileData.parks.length; i < n; i++) {
+                var oPark = oTileData.parks[i];
+                oPark.y = oPark.geometry.location.lat();
+                oPark.x = oPark.geometry.location.lng();
+                var servicesListItemTemplate = document.getElementById('templateServicesListItem'),
+                    source = servicesListItemTemplate.innerHTML,
+                    compile = Handlebars.compile(source),
+                    html = '';
+                html = compile(oPark);
+                servicesList.innerHTML += html;
+                var marker = document.createElement('img');
+                marker.style.position = 'absolute';
+                marker.style.left = Math.floor(-(iMarkerWidth / 2) + iTileWidth * ((oPark.x - oTileData.lng) / oTileData.spanlng)) + 'px';
+                marker.style.top = Math.floor(-(iMarkerHeight / 2) + iTileHeight - iTileHeight * ((oPark.y - oTileData.lat) / oTileData.spanlat)) + 'px';
+                marker.style.width = "10px";
+                marker.style.height = "10px"
+                marker.src = oBar.icon;
+                oMapTile.appendChild(marker);
+            }
+        }
         setTimeout(function() {
             var value = JSON.parse(localStorage.hoodMatch)
             if (value > 10) {
