@@ -29,7 +29,7 @@ You can use the app [here](http://webdev.davebitter.com/exercises/funda/eindopdr
 # Initial clickable prototype
 ![alt tag](https://raw.githubusercontent.com/DaveBitter/minor-webdev_funda/master/images/clickable_prototype.jpg)
 
+You can view the initial clickable prototype [here](https://xd.adobe.com/view/d8bf2160-9be9-47d8-96c2-d9d06eb05fb5/)
+
 # Initial idea sketching
 ![alt tag](https://raw.githubusercontent.com/DaveBitter/minor-webdev_funda/master/images/idea_sketching.jpg)
-
-You can view the initial clickable prototype [here](https://xd.adobe.com/view/d8bf2160-9be9-47d8-96c2-d9d06eb05fb5/)
