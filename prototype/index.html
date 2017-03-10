@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Funda | Quick, Hack, Prototype for Concept
+        </title>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+                <link href="static/css/main.css" rel="stylesheet" type="text/css">
+                </link>
+                <meta content="width=device-width, initial-scale=1" name="viewport">
+                </meta>
+            </link>
+        </link>
+    </head>
+    <body>
+        <header>
+            <img src="static/images/logo.svg"/>
+            <a href="#">
+                <i aria-hidden="true" class="fa fa-sliders">
+                </i>
+            </a>
+        </header>
+        <main>
+            <section id="preferences">
+                <h1>
+                    Wat vind u belangrijk?
+                </h1>
+                <p>
+                    Geef aan hoe belangrijk de onderstaande punten zijn.
+                </p>
+                <div id="preferencesInputs">
+                </div>
+                <a href="#map">
+                    <button class="btn btn--block btn--primary">
+                        Sla voorkeuren op
+                    </button>
+                </a>
+            </section>
+            <section id="mapPlaces">
+            </section>
+            <section id="map">
+                <h1>
+                    In welke buurt zoekt u?
+                </h1>
+                <p>
+                    Zoek via de kaart naar de buurt waar u wilt wonen.
+                </p>
+                <div id="map-placeholder">
+                </div>
+                <div class=" hide" id="message-container">
+                    <i aria-hidden="true" class="fa fa-spinner">
+                    </i>
+                    <p id="message">
+                    </p>
+                </div>
+                <div class="hide" id="match">
+                    <p>
+                        Buurt Match
+                    </p>
+                    <sup>
+                        (gebasseerd op
+                        <a href="#">
+                            uw instellingen
+                        </a>
+                        )
+                    </sup>
+                    <progress id="hood-match" max="10">
+                    </progress>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn--block active" id="services-button">
+                        Voorzieningen
+                    </button>
+                    <button class="btn btn--block" id="property-button">
+                        Huizen
+                    </button>
+                </div>
+                <div id="test-placeholder" style="opacity: 0;    height: 0;">
+                </div>
+                <ul class="hide" id="property-list">
+                </ul>
+                <ul id="services-list">
+                </ul>
+            </section>
+            <section id="detail">
+            </section>
+            <section id="place">
+            </section>
+        </main>
+    </body>
+    <script src="static/js/libs/handlebars.js" type="text/javascript">
+    </script>
+    <script src="static/js/libs/routie.js" type="text/javascript">
+    </script>
+    <script src="static/js/libs/aja.js" type="text/javascript">
+    </script>
+    <script id="templatePreferences" type="text/x-handlebars-template">
+        {{#if lable}}
+            <label>{{lable}}</label>
+        {{/if}}
+        {{#if value}}
+             <input max="10" min="1" id="{{lable}}-preference" type="range" value="{{value}}"></input>
+        {{/if}}
+    </script>
+    <script id="templateListItem" type="text/x-handlebars-template">
+        {{#if id}}
+                <li>
+                <a href="#detail/{{id}}">{{adr}}</a>
+               </li>
+         {{/if}}
+    </script>
+</html>
+<script id="templateServicesListItem" type="text/x-handlebars-template">
+    {{#if id}}
+                <li>
+                {{#if name}}
+                <a href="#place/{{id}}">{{name}}</a>
+               {{/if}}
+               </li>
+         {{/if}}
+</script>
+<script id="templateDetail" type="text/x-handlebars-template">
+    {{#if Adres}}
+            <h1 class="detail__titile">{{Adres}}</h1>
+        {{/if}}
+        {{#if Postcode}}
+            <span>{{Postcode}} {{Plaats}}</span>
+        {{/if}}
+        {{#if Prijs}}
+            <p class="detail__price">&euro; {{Prijs.Koopprijs}} {{Prijs.KoopAbbreviation}}</p>
+        {{/if}}
+
+        {{#if HoofdFoto}}
+            <img src="{{HoofdFoto}}"/>
+        {{/if}}
+
+        {{#if VolledigeOmschrijving}}
+        <h3>Omschrijving</h3>
+            <p class="detail__description">{{VolledigeOmschrijving}}</p>
+        {{/if}}
+</script>
+<script id="templatePlace" type="text/x-handlebars-template">
+    {{#if name}}
+            <h1 class="detail__titile">{{name}}</h1>
+        {{/if}}
+        {{#if vicinity}}
+            <span>{{vicinity}}</span>
+        {{/if}}
+</script>
+<script id="templateMap" type="text/x-handlebars-template">
+</script>
+<script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEVr97xaOlXm63obopi1onuiMc56iriFA&libraries=places&callback=myFundaTest.initMap">
+</script>
+<script src="static/js/funda-maps.js" type="text/javascript">
+</script>
+<script>
+    var myFundaTest = new FundaTest({
+            sInstanceName: 'myFundaTest',
+            sTargetContainerId: 'test-placeholder',
+            sMapId: 'map-placeholder',
+            sAanbodApiBasePath: 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json',
+            sApiKey: '271175433a7c4fe2a45750d385dd9bfd'
+        });
+
+        myFundaTest.doStuff();
+</script>
+<script src="static/js/app.js" type="text/javascript">
+</script>
