@@ -28,6 +28,13 @@ img[src='static/images/icons/place.png'] {
     height: 16px;
 }
 
+img.place-icon {
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 1em;
+}
+
 header {
     display: flex;
     justify-content: space-between;
@@ -38,6 +45,7 @@ header {
     padding: .2em .5em;
     width: 100%;
     background-color: #F7A100;
+    z-index: 1;
 }
 
 header+* {
