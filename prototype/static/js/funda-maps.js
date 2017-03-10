@@ -6,6 +6,10 @@ function FundaTest(oOptions) {
     this.MARKER_HEIGHT = 32;
     this.MARKER_ICON = 'http://www.fundainbusiness.nl/img/kaart/marker/marker-small.png';
     this.PLACE_ICON = 'static/images/icons/place.png';
+    this.BAR_ICON = 'static/images/icons/bar.png';
+    this.GYM_ICON = 'static/images/icons/gym.png';
+    this.SCHOOL_ICON = 'static/images/icons/school.png';
+    this.PARK_ICON = 'static/images/icons/park.png';
     this.init()
     localStorage.setItem("bars", "")
     localStorage.setItem("parks", "")
@@ -65,6 +69,10 @@ FundaTest.prototype.GenerateMapFromDataTiles = function(oMap, sSearchQuery) {
     var iMarkerHeight = this.MARKER_HEIGHT;
     var sMarkerIcon = this.MARKER_ICON;
     var sPlaceIcon = this.PLACE_ICON;
+    var sBarIcon = this.BAR_ICON;
+    var sGymIcon = this.GYM_ICON;
+    var sSchoolIcon = this.SCHOOL_ICON;
+    var sParkIcon = this.PARK_ICON;
     // Instantiate our custom map tile handler.
     var oMapType = new FundaMapType(new google.maps.Size(iTileWidth, iTileHeight), sSearchQuery, function(oTileData, sDivId) {
         calcMatch(oTileData)
@@ -95,6 +103,7 @@ FundaTest.prototype.GenerateMapFromDataTiles = function(oMap, sSearchQuery) {
                 var oBar = oTileData.bars[i];
                 oBar.y = oBar.geometry.location.lat();
                 oBar.x = oBar.geometry.location.lng();
+                oBar.iconSrc = sBarIcon
                 var servicesListItemTemplate = document.getElementById('templateServicesListItem'),
                     source = servicesListItemTemplate.innerHTML,
                     compile = Handlebars.compile(source),
@@ -107,7 +116,7 @@ FundaTest.prototype.GenerateMapFromDataTiles = function(oMap, sSearchQuery) {
                 marker.style.top = Math.floor(-(iMarkerHeight / 2) + iTileHeight - iTileHeight * ((oBar.y - oTileData.lat) / oTileData.spanlat)) + 'px';
                 marker.style.width = "10px";
                 marker.style.height = "10px"
-                marker.src = oBar.icon;
+                marker.src = sBarIcon;
                 oMapTile.appendChild(marker);
             }
         }
@@ -116,6 +125,7 @@ FundaTest.prototype.GenerateMapFromDataTiles = function(oMap, sSearchQuery) {
                 var oGym = oTileData.gyms[i];
                 oGym.y = oGym.geometry.location.lat();
                 oGym.x = oGym.geometry.location.lng();
+                oGym.iconSrc = sGymIcon
                 var servicesListItemTemplate = document.getElementById('templateServicesListItem'),
                     source = servicesListItemTemplate.innerHTML,
                     compile = Handlebars.compile(source),
@@ -128,7 +138,7 @@ FundaTest.prototype.GenerateMapFromDataTiles = function(oMap, sSearchQuery) {
                 marker.style.top = Math.floor(-(iMarkerHeight / 2) + iTileHeight - iTileHeight * ((oGym.y - oTileData.lat) / oTileData.spanlat)) + 'px';
                 marker.style.width = "10px";
                 marker.style.height = "10px"
-                marker.src = oBar.icon;
+                marker.src = sGymIcon;
                 oMapTile.appendChild(marker);
             }
         }
@@ -137,6 +147,7 @@ FundaTest.prototype.GenerateMapFromDataTiles = function(oMap, sSearchQuery) {
                 var oSchool = oTileData.schools[i];
                 oSchool.y = oSchool.geometry.location.lat();
                 oSchool.x = oSchool.geometry.location.lng();
+                oSchool.iconSrc = sSchoolIcon
                 var servicesListItemTemplate = document.getElementById('templateServicesListItem'),
                     source = servicesListItemTemplate.innerHTML,
                     compile = Handlebars.compile(source),
@@ -149,7 +160,7 @@ FundaTest.prototype.GenerateMapFromDataTiles = function(oMap, sSearchQuery) {
                 marker.style.top = Math.floor(-(iMarkerHeight / 2) + iTileHeight - iTileHeight * ((oSchool.y - oTileData.lat) / oTileData.spanlat)) + 'px';
                 marker.style.width = "10px";
                 marker.style.height = "10px"
-                marker.src = oBar.icon;
+                marker.src = sSchoolIcon;
                 oMapTile.appendChild(marker);
             }
         }
@@ -158,6 +169,7 @@ FundaTest.prototype.GenerateMapFromDataTiles = function(oMap, sSearchQuery) {
                 var oPark = oTileData.parks[i];
                 oPark.y = oPark.geometry.location.lat();
                 oPark.x = oPark.geometry.location.lng();
+                oPark.iconSrc = sParkIcon
                 var servicesListItemTemplate = document.getElementById('templateServicesListItem'),
                     source = servicesListItemTemplate.innerHTML,
                     compile = Handlebars.compile(source),
@@ -170,7 +182,7 @@ FundaTest.prototype.GenerateMapFromDataTiles = function(oMap, sSearchQuery) {
                 marker.style.top = Math.floor(-(iMarkerHeight / 2) + iTileHeight - iTileHeight * ((oPark.y - oTileData.lat) / oTileData.spanlat)) + 'px';
                 marker.style.width = "10px";
                 marker.style.height = "10px"
-                marker.src = oBar.icon;
+                marker.src = sParkIcon;
                 oMapTile.appendChild(marker);
             }
         }
