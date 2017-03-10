@@ -1,6 +1,6 @@
 # Funda | Quick, Hack, Prototype for Concept
 	v0.1
-![alt tag](https://raw.githubusercontent.com/DaveBitter/minor-webdev_funda/master/images/app.jpg)
+![alt tag](https://raw.githubusercontent.com/DaveBitter/minor-webdev_funda/master/app.jpg)
 
 This prototype was created to provide users with information about services in the neighborhoods where the houses are located. Services like bars, gyms, schools and parks are supported for now. The app wil calculate the match a neighborhood has by looking at the user's preferences. This happens everytime the user pans through the map and stops.
 
