@@ -154,13 +154,15 @@
 </script>
 <script src="static/js/funda-maps.js" type="text/javascript">
 </script>
+<script src="static/js/APIKEY.js" type="text/javascript">
+</script>
 <script>
     var myFundaTest = new FundaTest({
             sInstanceName: 'myFundaTest',
             sTargetContainerId: 'test-placeholder',
             sMapId: 'map-placeholder',
             sAanbodApiBasePath: 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json',
-            sApiKey: '271175433a7c4fe2a45750d385dd9bfd'
+            sApiKey: APIKEY
         });
 
         myFundaTest.doStuff();
